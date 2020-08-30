@@ -2,10 +2,11 @@
 // @name         Fiverr Auto Refresh
 // @namespace    http://tampermonkey.net/
 // @version      V1.0
-// @description  this version just work on fiverr profile's dashboard page.
+// @description  this script can refresh web page with random timing, its usually used for remaing online on different platforms like Fiverr, UpWork
 // @author       Talha Rafique
-// @match        https://www.fiverr.com/users/talharafique462/seller_dashboard
-// @exampleLink  https://www.fiverr.com/users/talharafique462/seller_dashboard
+// @contact      rafique.talha@outlook.com
+// @match        
+// @exampleLink  
 // ==/UserScript==
 
 
@@ -29,18 +30,21 @@ function millisToMinutesAndSeconds(millis) {
   return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
-//calculate time
+//make div on page where display remaining time. 
+var div = document.createElement("div");
+div.setAttribute("id", "timerId");
+div.setAttribute("class", "timerClass");
+
+// style, set position and style to display 
+var style = document.createElement("STYLE");
+var value = document.createTextNode("#timerId {position: fixed;  top: 85px;  left: 0px; color: red; font-weight: bold;} .timerClass { width: 200px; height: 70px; padding-left: 20px;}");
+style.appendChild(value);
+document.head.appendChild(style);
+
+//calculate time and refresh time
 window.setInterval(function(){
         currentTime = new Date().getTime();
         remainingTime =startTime- currentTime;
-
-
-//display on Page
-   // var elements = document.querySelectorAll('.username-link .text-display-6 ');
-   // elements.textContent = "something else";
-
-// document.getElementsByClassName("username-link")[0].innerHTML = "remaining Time: " +millisToMinutesAndSeconds(remainingTime);
-
-console.log("Time Remaining= "+millisToMinutesAndSeconds(remainingTime))
-   
+div.innerHTML = "Auto Refresh In= " + millisToMinutesAndSeconds(remainingTime) + " ";
+document.body.append(div);
 }, 1000);
