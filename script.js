@@ -7,17 +7,27 @@
 // @contact      rafique.talha@outlook.com
 // @match        
 // @exampleLink  
+
+
+
+
+
 // ==/UserScript==
 
 
-var maxMinutes = 5;
+var minMinutes = 4;
+var maxMinutes = 8;
 var startTime ;
 var totalTime;
 var currentTime;
 var remainingTime;
 
 
-totalTime = Math.floor(Math.random() * maxMinutes *60*1000);
+function random(min, max) {
+  return min + Math.random() * (max - min);
+}
+
+totalTime = Math.floor(random(minMinutes, maxMinutes) *60*1000);
 startTime = new Date().getTime() + totalTime;
 
 //Page refresh APi
@@ -30,14 +40,14 @@ function millisToMinutesAndSeconds(millis) {
   return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
-//make div on page where display remaining time. 
+//make div on page where display remaining time.
 var div = document.createElement("div");
 div.setAttribute("id", "timerId");
 div.setAttribute("class", "timerClass");
 
-// style, set position and style to display 
+// style, set position and style to display
 var style = document.createElement("STYLE");
-var value = document.createTextNode("#timerId {position: fixed;  top: 85px;  left: 0px; color: red; font-weight: bold;} .timerClass { width: 200px; height: 70px; padding-left: 20px;}");
+var value = document.createTextNode("#timerId {position: fixed;  top: 85px;  left: 0px; color: red; font-weight: bold;} .timerClass { width: 200px; height: 30px; padding-left: 20px;}");
 style.appendChild(value);
 document.head.appendChild(style);
 
@@ -45,6 +55,7 @@ document.head.appendChild(style);
 window.setInterval(function(){
         currentTime = new Date().getTime();
         remainingTime =startTime- currentTime;
-div.innerHTML = "Auto Refresh In= " + millisToMinutesAndSeconds(remainingTime) + " ";
+div.innerHTML = "Auto Refresh In = " + millisToMinutesAndSeconds(remainingTime) + " ";
 document.body.append(div);
 }, 1000);
+
